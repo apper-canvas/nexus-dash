@@ -4,27 +4,31 @@ import Button from '@/components/atoms/Button';
 
 const CompanyForm = ({ company, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    name: "",
+name: "",
     industry: "",
     address: "",
     city: "",
     state: "",
     zipCode: "",
     phone: "",
-    website: ""
+    website: "",
+    employeeCount: "",
+    companyEmailAddress: ""
   });
 
   useEffect(() => {
     if (company) {
       setFormData({
-        name: company.name || "",
+name: company.name || "",
         industry: company.industry || "",
         address: company.address || "",
         city: company.city || "",
         state: company.state || "",
         zipCode: company.zipCode || "",
         phone: company.phone || "",
-        website: company.website || ""
+        website: company.website || "",
+        employeeCount: company.employeeCount || "",
+        companyEmailAddress: company.companyEmailAddress || ""
       });
     }
   }, [company]);
@@ -88,9 +92,27 @@ const CompanyForm = ({ company, onSubmit, onCancel }) => {
           type="url"
           value={formData.website}
           onChange={handleChange}
-          placeholder="https://company.com"
+placeholder="https://company.com"
         />
       </div>
+
+      <FormField
+        label="Employee Count"
+        name="employeeCount"
+        type="number"
+        value={formData.employeeCount}
+        onChange={handleChange}
+        placeholder="e.g., 50"
+      />
+
+      <FormField
+        label="Company Email Address"
+        name="companyEmailAddress"
+        type="email"
+        value={formData.companyEmailAddress}
+        onChange={handleChange}
+        placeholder="info@company.com"
+      />
 
       <FormField
         label="Address"

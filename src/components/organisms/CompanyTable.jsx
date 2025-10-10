@@ -49,13 +49,15 @@ const CompanyTable = ({ companies, onEdit, onDelete }) => {
     }
   });
 
-  const columns = [
+const columns = [
     { field: "name", label: "Company", sortable: true },
     { field: "industry", label: "Industry", sortable: true },
     { field: "city", label: "City", sortable: true },
     { field: "state", label: "State", sortable: true },
     { field: "phone", label: "Phone", sortable: false },
-    { field: "website", label: "Website", sortable: false }
+    { field: "website", label: "Website", sortable: false },
+    { field: "employeeCount", label: "Employee Count", sortable: true },
+    { field: "companyEmailAddress", label: "Email", sortable: false }
   ];
 
   return (

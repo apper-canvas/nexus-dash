@@ -9,7 +9,7 @@ export const companyService = {
   getAll: async () => {
     try {
       const response = await apperClient.fetchRecords('companies_c', {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "industry_c"}},
@@ -19,6 +19,8 @@ export const companyService = {
           {"field": {"Name": "zip_code_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "website_c"}},
+          {"field": {"Name": "employee_count_c"}},
+          {"field": {"Name": "company_email_address_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ],
@@ -31,7 +33,7 @@ export const companyService = {
       }
 
       // Transform database field names to UI field names
-      return response.data.map(company => ({
+return response.data.map(company => ({
         Id: company.Id,
         name: company.name_c || '',
         industry: company.industry_c || '',
@@ -41,6 +43,8 @@ export const companyService = {
         zipCode: company.zip_code_c || '',
         phone: company.phone_c || '',
         website: company.website_c || '',
+        employeeCount: company.employee_count_c || '',
+        companyEmailAddress: company.company_email_address_c || '',
         createdAt: company.CreatedOn ? new Date(company.CreatedOn).getTime() : Date.now(),
         updatedAt: company.ModifiedOn ? new Date(company.ModifiedOn).getTime() : Date.now()
       }));
@@ -87,7 +91,7 @@ export const companyService = {
       }
 
       const response = await apperClient.fetchRecords('companies_c', {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "industry_c"}},
@@ -97,6 +101,8 @@ export const companyService = {
           {"field": {"Name": "zip_code_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "website_c"}},
+          {"field": {"Name": "employee_count_c"}},
+          {"field": {"Name": "company_email_address_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ],
@@ -110,7 +116,7 @@ export const companyService = {
       }
 
       return response.data.map(company => ({
-        Id: company.Id,
+Id: company.Id,
         name: company.name_c || '',
         industry: company.industry_c || '',
         address: company.address_c || '',
@@ -119,6 +125,8 @@ export const companyService = {
         zipCode: company.zip_code_c || '',
         phone: company.phone_c || '',
         website: company.website_c || '',
+        employeeCount: company.employee_count_c || '',
+        companyEmailAddress: company.company_email_address_c || '',
         createdAt: company.CreatedOn ? new Date(company.CreatedOn).getTime() : Date.now(),
         updatedAt: company.ModifiedOn ? new Date(company.ModifiedOn).getTime() : Date.now()
       }));
@@ -132,7 +140,7 @@ export const companyService = {
     try {
       const response = await apperClient.getRecordById('companies_c', parseInt(id), {
         fields: [
-          {"field": {"Name": "Id"}},
+{"field": {"Name": "Id"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "industry_c"}},
           {"field": {"Name": "address_c"}},
@@ -141,6 +149,8 @@ export const companyService = {
           {"field": {"Name": "zip_code_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "website_c"}},
+          {"field": {"Name": "employee_count_c"}},
+          {"field": {"Name": "company_email_address_c"}},
           {"field": {"Name": "CreatedOn"}},
           {"field": {"Name": "ModifiedOn"}}
         ]
@@ -156,7 +166,7 @@ export const companyService = {
       }
 
       const company = response.data;
-      return {
+return {
         Id: company.Id,
         name: company.name_c || '',
         industry: company.industry_c || '',
@@ -166,6 +176,8 @@ export const companyService = {
         zipCode: company.zip_code_c || '',
         phone: company.phone_c || '',
         website: company.website_c || '',
+        employeeCount: company.employee_count_c || '',
+        companyEmailAddress: company.company_email_address_c || '',
         createdAt: company.CreatedOn ? new Date(company.CreatedOn).getTime() : Date.now(),
         updatedAt: company.ModifiedOn ? new Date(company.ModifiedOn).getTime() : Date.now()
       };
@@ -177,7 +189,7 @@ export const companyService = {
 
   create: async (companyData) => {
     try {
-      const dbCompanyData = {
+const dbCompanyData = {
         name_c: companyData.name || '',
         industry_c: companyData.industry || '',
         address_c: companyData.address || '',
@@ -185,9 +197,10 @@ export const companyService = {
         state_c: companyData.state || '',
         zip_code_c: companyData.zipCode || '',
         phone_c: companyData.phone || '',
-        website_c: companyData.website || ''
+        website_c: companyData.website || '',
+        employee_count_c: companyData.employeeCount ? parseInt(companyData.employeeCount) : null,
+        company_email_address_c: companyData.companyEmailAddress || ''
       };
-
       const response = await apperClient.createRecord('companies_c', {
         records: [dbCompanyData]
       });
@@ -217,7 +230,7 @@ export const companyService = {
           const created = successful[0].data;
           return {
             Id: created.Id,
-            name: created.name_c || '',
+name: created.name_c || '',
             industry: created.industry_c || '',
             address: created.address_c || '',
             city: created.city_c || '',
@@ -225,6 +238,8 @@ export const companyService = {
             zipCode: created.zip_code_c || '',
             phone: created.phone_c || '',
             website: created.website_c || '',
+            employeeCount: created.employee_count_c || '',
+            companyEmailAddress: created.company_email_address_c || '',
             createdAt: created.CreatedOn ? new Date(created.CreatedOn).getTime() : Date.now(),
             updatedAt: created.ModifiedOn ? new Date(created.ModifiedOn).getTime() : Date.now()
           };
@@ -240,7 +255,7 @@ export const companyService = {
 
   update: async (id, companyData) => {
     try {
-      const dbCompanyData = {
+const dbCompanyData = {
         Id: parseInt(id),
         name_c: companyData.name || '',
         industry_c: companyData.industry || '',
@@ -249,7 +264,9 @@ export const companyService = {
         state_c: companyData.state || '',
         zip_code_c: companyData.zipCode || '',
         phone_c: companyData.phone || '',
-        website_c: companyData.website || ''
+        website_c: companyData.website || '',
+        employee_count_c: companyData.employeeCount ? parseInt(companyData.employeeCount) : null,
+        company_email_address_c: companyData.companyEmailAddress || ''
       };
 
       const response = await apperClient.updateRecord('companies_c', {
@@ -280,7 +297,7 @@ export const companyService = {
         if (successful.length > 0) {
           const updated = successful[0].data;
           return {
-            Id: updated.Id,
+Id: updated.Id,
             name: updated.name_c || '',
             industry: updated.industry_c || '',
             address: updated.address_c || '',
@@ -289,6 +306,8 @@ export const companyService = {
             zipCode: updated.zip_code_c || '',
             phone: updated.phone_c || '',
             website: updated.website_c || '',
+            employeeCount: updated.employee_count_c || '',
+            companyEmailAddress: updated.company_email_address_c || '',
             createdAt: updated.CreatedOn ? new Date(updated.CreatedOn).getTime() : Date.now(),
             updatedAt: updated.ModifiedOn ? new Date(updated.ModifiedOn).getTime() : Date.now()
           };
