@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
@@ -139,7 +139,7 @@ const FilterPanel = ({
     setIsViewModalOpen(true);
   };
 
-  const getFilterOptions = () => {
+const options = useMemo(() => {
     if (type === "contacts") {
       return {
         statusOptions: [
@@ -162,9 +162,7 @@ const FilterPanel = ({
         ]
       };
     }
-  };
-
-  const options = getFilterOptions();
+  }, [type]);
 
   return (
     <div className={className}>
