@@ -9,7 +9,7 @@ import Modal from "@/components/molecules/Modal";
 import { toast } from "react-toastify";
 
 const FilterPanel = ({ 
-  type = "contacts", 
+type = "contacts", 
   onFiltersChange, 
   initialFilters = {}, 
   className = "" 
@@ -21,6 +21,9 @@ const FilterPanel = ({
     dealValueMin: "",
     dealValueMax: "",
     stage: "",
+    industry: "",
+    city: "",
+    state: "",
     dateFrom: "",
     dateTo: "",
     ...initialFilters
@@ -70,11 +73,14 @@ const FilterPanel = ({
 
   const clearFilters = () => {
     setFilters({
-      status: "",
+status: "",
       company: "",
       dealValueMin: "",
       dealValueMax: "",
       stage: "",
+      industry: "",
+      city: "",
+      state: "",
       dateFrom: "",
       dateTo: ""
     });
@@ -147,6 +153,19 @@ const options = useMemo(() => {
           { value: "Lead", label: "Lead" },
           { value: "Customer", label: "Customer" },
           { value: "Prospect", label: "Prospect" }
+        ]
+      };
+    } else if (type === "companies") {
+      return {
+        industryOptions: [
+          { value: "", label: "All Industries" },
+          { value: "Technology", label: "Technology" },
+          { value: "Healthcare", label: "Healthcare" },
+          { value: "Finance", label: "Finance" },
+          { value: "Education", label: "Education" },
+          { value: "Retail", label: "Retail" },
+          { value: "Manufacturing", label: "Manufacturing" },
+          { value: "Other", label: "Other" }
         ]
       };
     } else {
@@ -247,17 +266,17 @@ const options = useMemo(() => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Status/Stage Filter */}
-              <div>
+<div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {type === "contacts" ? "Status" : "Stage"}
+                  {type === "contacts" ? "Status" : type === "companies" ? "Industry" : "Stage"}
                 </label>
                 <Select
-                  value={type === "contacts" ? filters.status : filters.stage}
+                  value={type === "contacts" ? filters.status : type === "companies" ? filters.industry : filters.stage}
                   onChange={(e) => handleFilterChange(
-                    type === "contacts" ? "status" : "stage", 
+                    type === "contacts" ? "status" : type === "companies" ? "industry" : "stage", 
                     e.target.value
                   )}
-                  options={type === "contacts" ? options.statusOptions : options.stageOptions}
+                  options={type === "contacts" ? options.statusOptions : type === "companies" ? options.industryOptions : options.stageOptions}
                 />
               </div>
 
@@ -274,6 +293,32 @@ const options = useMemo(() => {
                     placeholder="Filter by company..."
                   />
                 </div>
+)}
+
+              {type === "companies" && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      City
+                    </label>
+                    <Input
+                      value={filters.city}
+                      onChange={(e) => handleFilterChange("city", e.target.value)}
+                      placeholder="Enter city..."
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      State
+                    </label>
+                    <Input
+                      value={filters.state}
+                      onChange={(e) => handleFilterChange("state", e.target.value)}
+                      placeholder="Enter state..."
+                    />
+                  </div>
+                </>
               )}
 
               {/* Deal Value Range */}

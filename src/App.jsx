@@ -1,22 +1,23 @@
-import { createContext, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import React, { createContext, useEffect, useState } from "react";
+import { Route, Router, Routes, useNavigate } from "react-router-dom";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { store } from '@/store/store';
-import { setUser, clearUser } from '@/store/userSlice';
-import Layout from '@/components/organisms/Layout';
-import Login from '@/components/pages/Login';
-import Signup from '@/components/pages/Signup';
-import Callback from '@/components/pages/Callback';
-import ErrorPage from '@/components/pages/ErrorPage';
-import ResetPassword from '@/components/pages/ResetPassword';
-import PromptPassword from '@/components/pages/PromptPassword';
-import Dashboard from '@/components/pages/Dashboard';
-import Contacts from '@/components/pages/Contacts';
-import ContactDetail from '@/components/pages/ContactDetail';
-import Pipeline from '@/components/pages/Pipeline';
-import Activities from '@/components/pages/Activities';
-import NotFound from '@/components/pages/NotFound';
+import { store } from "@/store/store";
+import Companies from "@/components/pages/Companies";
+import PromptPassword from "@/components/pages/PromptPassword";
+import ErrorPage from "@/components/pages/ErrorPage";
+import NotFound from "@/components/pages/NotFound";
+import Activities from "@/components/pages/Activities";
+import Callback from "@/components/pages/Callback";
+import Pipeline from "@/components/pages/Pipeline";
+import Dashboard from "@/components/pages/Dashboard";
+import ResetPassword from "@/components/pages/ResetPassword";
+import ContactDetail from "@/components/pages/ContactDetail";
+import Login from "@/components/pages/Login";
+import Signup from "@/components/pages/Signup";
+import Contacts from "@/components/pages/Contacts";
+import Layout from "@/components/organisms/Layout";
+import { clearUser, setUser } from "@/store/userSlice";
 
 // Create auth context
 export const AuthContext = createContext(null);
@@ -141,7 +142,8 @@ function AppContent() {
           <Route path="contacts" element={<Contacts />} />
           <Route path="contacts/:contactId" element={<ContactDetail />} />
           <Route path="pipeline" element={<Pipeline />} />
-          <Route path="activities" element={<Activities />} />
+<Route path="activities" element={<Activities />} />
+          <Route path="companies" element={<Companies />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

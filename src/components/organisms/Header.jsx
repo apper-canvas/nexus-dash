@@ -10,8 +10,9 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { path: "/", label: "Dashboard", icon: "LayoutDashboard" },
+{ path: "/", label: "Dashboard", icon: "LayoutDashboard" },
     { path: "/contacts", label: "Contacts", icon: "Users" },
+    { path: "/companies", label: "Companies", icon: "Building" },
     { path: "/pipeline", label: "Pipeline", icon: "TrendingUp" },
     { path: "/activities", label: "Activities", icon: "Activity" }
   ];
