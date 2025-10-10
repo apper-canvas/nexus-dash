@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CompanyTable from "@/components/organisms/CompanyTable";
 import CompanyForm from "@/components/organisms/CompanyForm";
 import Modal from "@/components/molecules/Modal";
@@ -14,6 +15,7 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const Companies = () => {
+  const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -108,6 +110,10 @@ const Companies = () => {
     setIsModalOpen(true);
   };
 
+const handleViewCompany = (company) => {
+    navigate(`/companies/${company.Id}`);
+  };
+
   const handleDeleteCompany = async (id) => {
     try {
       await companyService.delete(id);
@@ -190,9 +196,10 @@ const Companies = () => {
         />
       ) : (
         <CompanyTable
-          companies={filteredCompanies}
+companies={filteredCompanies}
           onEdit={handleEditCompany}
           onDelete={handleDeleteCompany}
+          onView={handleViewCompany}
           showingFiltered={Object.keys(activeFilters).length > 0 || searchQuery.trim() !== ""}
         />
       )}

@@ -4,6 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { store } from "@/store/store";
 import Companies from "@/components/pages/Companies";
+import CompanyDetail from "@/components/pages/CompanyDetail";
 import PromptPassword from "@/components/pages/PromptPassword";
 import ErrorPage from "@/components/pages/ErrorPage";
 import NotFound from "@/components/pages/NotFound";
@@ -137,13 +138,14 @@ function AppContent() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
         <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-        <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="contacts" element={<Contacts />} />
           <Route path="contacts/:contactId" element={<ContactDetail />} />
           <Route path="pipeline" element={<Pipeline />} />
-<Route path="activities" element={<Activities />} />
+          <Route path="activities" element={<Activities />} />
           <Route path="companies" element={<Companies />} />
+          <Route path="companies/:companyId" element={<CompanyDetail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

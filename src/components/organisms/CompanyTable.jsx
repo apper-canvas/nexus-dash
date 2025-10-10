@@ -5,7 +5,7 @@ import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import { toast } from 'react-toastify';
 
-const CompanyTable = ({ companies, onEdit, onDelete }) => {
+const CompanyTable = ({ companies, onEdit, onDelete, onView }) => {
   const [sortField, setSortField] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
 
@@ -92,12 +92,18 @@ const columns = [
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {sortedCompanies.map((company, index) => (
-              <motion.tr
+<motion.tr
                 key={company.Id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200"
+                className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 cursor-pointer"
+                onClick={(e) => {
+                  // Prevent navigation when clicking on action buttons
+                  if (!e.target.closest('button')) {
+                    onView?.(company);
+                  }
+                }}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
