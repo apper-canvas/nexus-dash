@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import PipelineBoard from "@/components/organisms/PipelineBoard";
 import DealForm from "@/components/organisms/DealForm";
 import Modal from "@/components/molecules/Modal";
+import SearchBar from "@/components/molecules/SearchBar";
+import FilterPanel from "@/components/molecules/FilterPanel";
 import Button from "@/components/atoms/Button";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -14,18 +16,24 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const Pipeline = () => {
-  const [deals, setDeals] = useState([]);
+const [deals, setDeals] = useState([]);
+  const [filteredDeals, setFilteredDeals] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState({});
   useEffect(() => {
-    loadPipelineData();
+loadPipelineData();
   }, []);
 
-  const loadPipelineData = async () => {
+  useEffect(() => {
+    filterDeals();
+  }, [deals, searchQuery, activeFilters]);
+
+const loadPipelineData = async () => {
     try {
       setLoading(true);
       setError("");
@@ -33,13 +41,69 @@ const Pipeline = () => {
         dealService.getAll(),
         contactService.getAll()
       ]);
-      setDeals(dealsData.filter((d) => d.status === "Open"));
+      const openDeals = dealsData.filter((d) => d.status === "Open");
+      setDeals(openDeals);
+      setFilteredDeals(openDeals);
       setContacts(contactsData);
     } catch (err) {
       setError(err.message || "Failed to load pipeline data");
     } finally {
       setLoading(false);
     }
+  };
+
+  const filterDeals = () => {
+    let filtered = [...deals];
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (deal) =>
+          deal.title.toLowerCase().includes(query) ||
+          deal.description.toLowerCase().includes(query) ||
+          deal.stage.toLowerCase().includes(query)
+      );
+    }
+
+    // Apply advanced filters
+    if (activeFilters.stage) {
+      filtered = filtered.filter(deal => deal.stage === activeFilters.stage);
+    }
+
+    if (activeFilters.dealValueMin) {
+      const minValue = parseFloat(activeFilters.dealValueMin);
+      filtered = filtered.filter(deal => deal.value >= minValue);
+    }
+
+    if (activeFilters.dealValueMax) {
+      const maxValue = parseFloat(activeFilters.dealValueMax);
+      filtered = filtered.filter(deal => deal.value <= maxValue);
+    }
+
+    if (activeFilters.dateFrom) {
+      const fromDate = new Date(activeFilters.dateFrom);
+      filtered = filtered.filter(deal => 
+        new Date(deal.expectedCloseDate) >= fromDate
+      );
+    }
+
+    if (activeFilters.dateTo) {
+      const toDate = new Date(activeFilters.dateTo);
+      filtered = filtered.filter(deal => 
+        new Date(deal.expectedCloseDate) <= toDate
+      );
+    }
+
+    setFilteredDeals(filtered);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const handleFiltersChange = (filters) => {
+    setActiveFilters(filters);
   };
 
   const handleAddDeal = () => {
@@ -103,7 +167,7 @@ const Pipeline = () => {
   const avgDealSize = deals.length > 0 ? totalValue / deals.length : 0;
 
   return (
-    <div className="space-y-6">
+<div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-2">
@@ -116,6 +180,28 @@ const Pipeline = () => {
           Add Deal
         </Button>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
+      >
+        <SearchBar
+          placeholder="Search deals by title, description, or stage..."
+          onSearch={handleSearch}
+        />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <FilterPanel
+          type="deals"
+          onFiltersChange={handleFiltersChange}
+        />
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <motion.div
@@ -172,8 +258,8 @@ const Pipeline = () => {
           onAction={handleAddDeal}
         />
       ) : (
-        <PipelineBoard
-          deals={deals}
+<PipelineBoard
+          deals={filteredDeals}
           contacts={contacts}
           onDealClick={handleDealClick}
           onStageChange={handleStageChange}

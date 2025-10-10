@@ -58,13 +58,13 @@ const ContactTable = ({ contacts, onEdit, onDelete }) => {
         <table className="w-full">
           <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
             <tr>
-              {[
-                { field: "name", label: "Name" },
-                { field: "company", label: "Company" },
-                { field: "email", label: "Email" },
-                { field: "phone", label: "Phone" },
-                { field: "status", label: "Status" },
-                { field: "dealValue", label: "Deal Value" }
+{[
+                { field: "name", label: "Name", sortable: true },
+                { field: "company", label: "Company", sortable: true },
+                { field: "email", label: "Email", sortable: true },
+                { field: "phone", label: "Phone", sortable: false },
+                { field: "status", label: "Status", sortable: true },
+                { field: "dealValue", label: "Deal Value", sortable: true }
               ].map((column) => (
                 <th
                   key={column.field}
@@ -97,7 +97,7 @@ const ContactTable = ({ contacts, onEdit, onDelete }) => {
                 className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 cursor-pointer"
                 onClick={() => navigate(`/contacts/${contact.Id}`)}
               >
-                <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-gradient-to-br from-primary to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-md">
                       {contact.name.charAt(0)}
@@ -112,10 +112,14 @@ const ContactTable = ({ contacts, onEdit, onDelete }) => {
                   {contact.company}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {contact.email}
+                  <a href={`mailto:${contact.email}`} className="hover:text-primary transition-colors">
+                    {contact.email}
+                  </a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {contact.phone}
+                  <a href={`tel:${contact.phone}`} className="hover:text-primary transition-colors">
+                    {contact.phone}
+                  </a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Badge variant={getStatusColor(contact.status)}>{contact.status}</Badge>

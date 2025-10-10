@@ -10,6 +10,42 @@ export const dealService = {
     return [...deals];
   },
 
+  // Advanced filtering support
+  search: async (filters = {}) => {
+    await delay(200);
+    let filtered = [...deals];
+
+    if (filters.stage) {
+      filtered = filtered.filter(deal => deal.stage === filters.stage);
+    }
+
+    if (filters.dealValueMin !== undefined) {
+      const minValue = parseFloat(filters.dealValueMin);
+      filtered = filtered.filter(deal => deal.value >= minValue);
+    }
+
+    if (filters.dealValueMax !== undefined) {
+      const maxValue = parseFloat(filters.dealValueMax);
+      filtered = filtered.filter(deal => deal.value <= maxValue);
+    }
+
+    if (filters.dateFrom) {
+      const fromDate = new Date(filters.dateFrom);
+      filtered = filtered.filter(deal => 
+        new Date(deal.expectedCloseDate) >= fromDate
+      );
+    }
+
+    if (filters.dateTo) {
+      const toDate = new Date(filters.dateTo);
+      filtered = filtered.filter(deal => 
+        new Date(deal.expectedCloseDate) <= toDate
+      );
+    }
+
+    return filtered;
+  },
+
   getById: async (id) => {
     await delay(200);
     const deal = deals.find((d) => d.Id === parseInt(id));

@@ -3,6 +3,7 @@ import ContactTable from "@/components/organisms/ContactTable";
 import ContactForm from "@/components/organisms/ContactForm";
 import Modal from "@/components/molecules/Modal";
 import SearchBar from "@/components/molecules/SearchBar";
+import FilterPanel from "@/components/molecules/FilterPanel";
 import Button from "@/components/atoms/Button";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -13,21 +14,21 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState([]);
+const [contacts, setContacts] = useState([]);
   const [filteredContacts, setFilteredContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingContact, setEditingContact] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [activeFilters, setActiveFilters] = useState({});
   useEffect(() => {
     loadContacts();
   }, []);
 
   useEffect(() => {
-    filterContacts();
-  }, [contacts, searchQuery]);
+filterContacts();
+  }, [contacts, searchQuery, activeFilters]);
 
   const loadContacts = async () => {
     try {
@@ -42,21 +43,62 @@ const Contacts = () => {
     }
   };
 
-  const filterContacts = () => {
-    if (!searchQuery.trim()) {
-      setFilteredContacts(contacts);
-      return;
+const filterContacts = () => {
+    let filtered = [...contacts];
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (contact) =>
+          contact.name.toLowerCase().includes(query) ||
+          contact.email.toLowerCase().includes(query) ||
+          contact.company.toLowerCase().includes(query) ||
+          contact.phone.toLowerCase().includes(query)
+      );
     }
 
-    const query = searchQuery.toLowerCase();
-    const filtered = contacts.filter(
-      (contact) =>
-        contact.name.toLowerCase().includes(query) ||
-        contact.email.toLowerCase().includes(query) ||
-        contact.company.toLowerCase().includes(query) ||
-        contact.phone.toLowerCase().includes(query)
-    );
+    // Apply advanced filters
+    if (activeFilters.status) {
+      filtered = filtered.filter(contact => contact.status === activeFilters.status);
+    }
+
+    if (activeFilters.company) {
+      const companyQuery = activeFilters.company.toLowerCase();
+      filtered = filtered.filter(contact => 
+        contact.company.toLowerCase().includes(companyQuery)
+      );
+    }
+
+    if (activeFilters.dealValueMin) {
+      const minValue = parseFloat(activeFilters.dealValueMin);
+      filtered = filtered.filter(contact => contact.dealValue >= minValue);
+    }
+
+    if (activeFilters.dealValueMax) {
+      const maxValue = parseFloat(activeFilters.dealValueMax);
+      filtered = filtered.filter(contact => contact.dealValue <= maxValue);
+    }
+
+    if (activeFilters.dateFrom) {
+      const fromDate = new Date(activeFilters.dateFrom);
+      filtered = filtered.filter(contact => 
+        new Date(contact.lastContact) >= fromDate
+      );
+    }
+
+    if (activeFilters.dateTo) {
+      const toDate = new Date(activeFilters.dateTo);
+      filtered = filtered.filter(contact => 
+        new Date(contact.lastContact) <= toDate
+      );
+    }
+
     setFilteredContacts(filtered);
+  };
+
+  const handleFiltersChange = (filters) => {
+    setActiveFilters(filters);
   };
 
   const handleSearch = (query) => {
@@ -104,7 +146,7 @@ const Contacts = () => {
   if (error) return <Error message={error} onRetry={loadContacts} />;
 
   return (
-    <div className="space-y-6">
+<div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-2">
@@ -129,6 +171,17 @@ const Contacts = () => {
         />
       </motion.div>
 
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <FilterPanel
+          type="contacts"
+          onFiltersChange={handleFiltersChange}
+        />
+      </motion.div>
+
       {filteredContacts.length === 0 ? (
         <Empty
           icon="Users"
@@ -142,10 +195,11 @@ const Contacts = () => {
           onAction={!searchQuery ? handleAddContact : undefined}
         />
       ) : (
-        <ContactTable
+<ContactTable
           contacts={filteredContacts}
           onEdit={handleEditContact}
           onDelete={handleDeleteContact}
+          showingFiltered={Object.keys(activeFilters).length > 0 || searchQuery.trim() !== ""}
         />
       )}
 

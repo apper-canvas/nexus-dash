@@ -13,6 +13,13 @@ const SearchBar = ({ placeholder = "Search...", onSearch, className = "" }) => {
     }
   };
 
+  const handleClear = () => {
+    setQuery("");
+    if (onSearch) {
+      onSearch("");
+    }
+  };
+
   return (
     <div className={`relative ${className}`}>
       <ApperIcon name="Search" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -21,8 +28,16 @@ const SearchBar = ({ placeholder = "Search...", onSearch, className = "" }) => {
         value={query}
         onChange={handleChange}
         placeholder={placeholder}
-        className="pl-10"
+        className="pl-10 pr-10"
       />
+      {query && (
+        <button
+          onClick={handleClear}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <ApperIcon name="X" className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 };

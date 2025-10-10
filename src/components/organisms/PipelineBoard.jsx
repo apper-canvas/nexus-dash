@@ -49,33 +49,33 @@ const PipelineBoard = ({ deals, contacts, onDealClick, onStageChange }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
       {stages.map((stage) => {
         const stageDeals = getDealsByStage(stage);
         const stageValue = calculateStageValue(stage);
         
         return (
-          <div
+<div
             key={stage}
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(stage)}
-            className="bg-white rounded-lg shadow-sm border-2 border-gray-200 overflow-hidden"
+            className="bg-white rounded-lg shadow-sm border-2 border-gray-200 overflow-hidden min-h-[400px] flex flex-col"
           >
-            <div className={`bg-gradient-to-r ${stageColors[stage]} p-4 border-b border-gray-200`}>
+            <div className={`bg-gradient-to-r ${stageColors[stage]} p-3 border-b border-gray-200 flex-shrink-0`}>
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-bold text-gray-900">{stage}</h3>
-                <Badge variant="default" className="bg-white text-gray-900">
+                <h3 className="text-sm font-bold text-gray-900">{stage}</h3>
+                <Badge variant="default" className="bg-white text-gray-900 text-xs px-2 py-1">
                   {stageDeals.length}
                 </Badge>
               </div>
-              <p className="text-sm font-semibold text-gray-700">
+              <p className="text-xs font-semibold text-gray-700">
                 ${stageValue.toLocaleString()}
               </p>
             </div>
             
             <div className="p-4 space-y-3 min-h-[400px] max-h-[600px] overflow-y-auto">
               <AnimatePresence>
-                {stageDeals.map((deal, index) => (
+{stageDeals.map((deal, index) => (
                   <motion.div
                     key={deal.Id}
                     initial={{ opacity: 0, y: 20 }}
@@ -85,37 +85,37 @@ const PipelineBoard = ({ deals, contacts, onDealClick, onStageChange }) => {
                     draggable
                     onDragStart={() => handleDragStart(deal)}
                     onClick={() => onDealClick(deal)}
-                    className="bg-white p-4 rounded-lg border-2 border-gray-200 shadow-sm hover:shadow-md hover:border-primary transition-all duration-200 cursor-move group"
+                    className="bg-gray-50 p-3 rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:border-primary transition-all duration-200 cursor-move group mx-2 mb-3"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="font-semibold text-gray-900 text-sm group-hover:text-primary transition-colors">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-gray-900 text-xs group-hover:text-primary transition-colors leading-tight">
                         {deal.title}
                       </h4>
-                      <Button size="sm" variant="ghost" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ApperIcon name="MoreVertical" className="w-4 h-4" />
+                      <Button size="sm" variant="ghost" className="opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                        <ApperIcon name="MoreVertical" className="w-3 h-3" />
                       </Button>
                     </div>
                     
-                    <div className="space-y-2 mb-3">
+                    <div className="space-y-1 mb-2">
                       <div className="flex items-center text-xs text-gray-600">
-                        <ApperIcon name="User" className="w-3 h-3 mr-1" />
-                        {getContactName(deal.contactId)}
+                        <ApperIcon name="User" className="w-3 h-3 mr-1 flex-shrink-0" />
+                        <span className="truncate">{getContactName(deal.contactId)}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-gray-900">
+                        <span className="text-sm font-bold text-gray-900">
                           ${deal.value.toLocaleString()}
                         </span>
-                        <Badge variant="info" className="text-xs">
+                        <Badge variant="info" className="text-xs px-1.5 py-0.5">
                           {deal.probability}%
                         </Badge>
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                      <span className="text-xs text-gray-500">
-                        Close: {format(new Date(deal.expectedCloseDate), "MMM d")}
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                      <span className="text-xs text-gray-500 truncate">
+                        {format(new Date(deal.expectedCloseDate), "MMM d")}
                       </span>
-                      <ApperIcon name="GripVertical" className="w-4 h-4 text-gray-400" />
+                      <ApperIcon name="GripVertical" className="w-3 h-3 text-gray-400 flex-shrink-0" />
                     </div>
                   </motion.div>
                 ))}

@@ -44,5 +44,48 @@ export const contactService = {
     if (index === -1) throw new Error("Contact not found");
     contacts.splice(index, 1);
     return true;
+  },
+
+  // Advanced filtering support
+  search: async (filters = {}) => {
+    await delay(200);
+    let filtered = [...contacts];
+
+    if (filters.status) {
+      filtered = filtered.filter(contact => contact.status === filters.status);
+    }
+
+    if (filters.company) {
+      const companyQuery = filters.company.toLowerCase();
+      filtered = filtered.filter(contact => 
+        contact.company.toLowerCase().includes(companyQuery)
+      );
+    }
+
+    if (filters.dealValueMin !== undefined) {
+      const minValue = parseFloat(filters.dealValueMin);
+      filtered = filtered.filter(contact => contact.dealValue >= minValue);
+    }
+
+    if (filters.dealValueMax !== undefined) {
+      const maxValue = parseFloat(filters.dealValueMax);
+      filtered = filtered.filter(contact => contact.dealValue <= maxValue);
+    }
+
+    if (filters.dateFrom) {
+      const fromDate = new Date(filters.dateFrom);
+      filtered = filtered.filter(contact => 
+        new Date(contact.lastContact) >= fromDate
+      );
+    }
+
+    if (filters.dateTo) {
+      const toDate = new Date(filters.dateTo);
+      filtered = filtered.filter(contact => 
+        new Date(contact.lastContact) <= toDate
+      );
+    }
+
+    return filtered;
   }
 };
