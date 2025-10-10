@@ -170,8 +170,8 @@ const handleFiltersChange = useCallback((filters) => {
 <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-2">
-Deals
+<h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-2">
+Deals-Madhuri
           </h1>
           <p className="text-gray-600">Drag and drop deals between stages</p>
         </div>
