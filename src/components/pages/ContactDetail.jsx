@@ -1,30 +1,35 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import TabGroup from "@/components/molecules/TabGroup";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import ActivityFeed from "@/components/organisms/ActivityFeed";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { contactService } from "@/services/api/contactService";
 import { dealService } from "@/services/api/dealService";
 import { activityService } from "@/services/api/activityService";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
+import TabGroup from "@/components/molecules/TabGroup";
+import Modal from "@/components/molecules/Modal";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import Contacts from "@/components/pages/Contacts";
+import ActivityFeed from "@/components/organisms/ActivityFeed";
+import ContactForm from "@/components/organisms/ContactForm";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const ContactDetail = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
   const [contact, setContact] = useState(null);
   const [deals, setDeals] = useState([]);
-  const [activities, setActivities] = useState([]);
+const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingContact, setEditingContact] = useState(null);
   useEffect(() => {
-    loadContactData();
+loadContactData();
   }, [contactId]);
 
   const loadContactData = async () => {
@@ -43,6 +48,25 @@ const ContactDetail = () => {
       setError(err.message || "Failed to load contact details");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleEditContact = () => {
+    setEditingContact(contact);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (contactData) => {
+    try {
+      const updated = await contactService.update(contact.Id, contactData);
+      setContact(updated);
+      setIsModalOpen(false);
+      setEditingContact(null);
+      toast.success("Contact updated successfully");
+      // Refresh the data to ensure all related information is up to date
+      loadContactData();
+    } catch (err) {
+      toast.error(err.message || "Failed to update contact");
     }
   };
 
@@ -76,7 +100,7 @@ const ContactDetail = () => {
           <ApperIcon name="ArrowLeft" className="w-4 h-4 mr-2" />
           Back to Contacts
         </Button>
-        <Button variant="primary">
+<Button variant="primary" onClick={handleEditContact}>
           <ApperIcon name="Edit" className="w-4 h-4 mr-2" />
           Edit Contact
         </Button>
@@ -228,8 +252,27 @@ const ContactDetail = () => {
           ) : (
             <ActivityFeed activities={activities} contacts={[contact]} />
           )}
-        </motion.div>
+</motion.div>
       )}
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingContact(null);
+        }}
+        title="Edit Contact"
+        size="lg"
+      >
+        <ContactForm
+          contact={editingContact}
+          onSubmit={handleSubmit}
+          onCancel={() => {
+            setIsModalOpen(false);
+            setEditingContact(null);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
