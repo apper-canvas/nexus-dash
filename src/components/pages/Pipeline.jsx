@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PipelineBoard from "@/components/organisms/PipelineBoard";
 import DealForm from "@/components/organisms/DealForm";
 import Modal from "@/components/molecules/Modal";
@@ -52,7 +52,7 @@ const loadPipelineData = async () => {
     }
   };
 
-  const filterDeals = () => {
+const filterDeals = useCallback(() => {
     let filtered = [...deals];
 
     // Apply search query
@@ -96,7 +96,7 @@ const loadPipelineData = async () => {
     }
 
     setFilteredDeals(filtered);
-  };
+  }, [deals, searchQuery, activeFilters]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
