@@ -102,9 +102,9 @@ const filterDeals = useCallback(() => {
     setSearchQuery(query);
   };
 
-  const handleFiltersChange = (filters) => {
+const handleFiltersChange = useCallback((filters) => {
     setActiveFilters(filters);
-  };
+  }, []);
 
   const handleAddDeal = () => {
     setSelectedDeal(null);
