@@ -171,7 +171,7 @@ const handleFiltersChange = useCallback((filters) => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-2">
-            Sales Pipeline
+Deals
           </h1>
           <p className="text-gray-600">Drag and drop deals between stages</p>
         </div>
@@ -210,7 +210,7 @@ const handleFiltersChange = useCallback((filters) => {
           className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-gray-600">Total Pipeline</h3>
+<h3 className="text-sm font-semibold text-gray-600">Total Deal Value</h3>
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
               <ApperIcon name="TrendingUp" className="w-5 h-5 text-white" />
             </div>

@@ -268,15 +268,15 @@ const options = useMemo(() => {
               {/* Status/Stage Filter */}
 <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {type === "contacts" ? "Status" : type === "companies" ? "Industry" : "Stage"}
+{type === "contacts" ? "Status" : type === "companies" ? "Industry" : "Deal Stage"}
                 </label>
                 <Select
-                  value={type === "contacts" ? filters.status : type === "companies" ? filters.industry : filters.stage}
+value={type === "contacts" ? filters.status : type === "companies" ? filters.industry : filters.stage}
                   onChange={(e) => handleFilterChange(
-                    type === "contacts" ? "status" : type === "companies" ? "industry" : "stage", 
+type === "contacts" ? "status" : type === "companies" ? "industry" : "stage",
                     e.target.value
                   )}
-                  options={type === "contacts" ? options.statusOptions : type === "companies" ? options.industryOptions : options.stageOptions}
+options={type === "contacts" ? options.statusOptions : type === "companies" ? options.industryOptions : options.stageOptions}
                 />
               </div>
 

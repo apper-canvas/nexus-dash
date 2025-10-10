@@ -122,7 +122,7 @@ const Dashboard = () => {
           </Button>
           <Button variant="primary" onClick={() => navigate("/pipeline")}>
             <ApperIcon name="TrendingUp" className="w-4 h-4 mr-2" />
-            View Pipeline
+View Deals
           </Button>
         </div>
       </div>
@@ -130,7 +130,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           icon="DollarSign"
-          title="Pipeline Value"
+title="Deal Value"
           value={`$${(totalPipelineValue / 1000).toFixed(0)}K`}
           change="+12.5%"
           trend="up"
@@ -168,7 +168,7 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6"
         >
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Pipeline by Stage</h2>
+<h2 className="text-xl font-bold text-gray-900 mb-6">Deals by Stage</h2>
           <Chart options={chartOptions} series={chartSeries} type="bar" height={300} />
         </motion.div>
 
