@@ -13,8 +13,9 @@ const Select = forwardRef(({
       className={cn(
         "w-full px-4 py-2.5 bg-white border-2 rounded-md transition-all duration-200",
         "text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary",
-        "[&>option]:bg-white [&>option]:text-gray-900 [&>option]:py-2 [&>option]:px-2",
-        "[&>option:hover]:bg-primary [&>option:hover]:text-white",
+"[&>option]:bg-white [&>option]:text-gray-900 [&>option]:py-2 [&>option]:px-3",
+        "[&>option:hover]:bg-blue-50 [&>option:hover]:text-gray-900",
+        "[&>option:checked]:bg-primary [&>option:checked]:text-white",
         error ? "border-error focus:ring-error" : "border-gray-300 hover:border-gray-400",
         className
       )}
