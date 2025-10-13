@@ -18,6 +18,7 @@ import Login from "@/components/pages/Login";
 import Signup from "@/components/pages/Signup";
 import Contacts from "@/components/pages/Contacts";
 import Quotes from "@/components/pages/Quotes";
+import SalesOrders from "@/components/pages/SalesOrders";
 import Layout from "@/components/organisms/Layout";
 import { clearUser, setUser } from "@/store/userSlice";
 
@@ -145,6 +146,7 @@ function AppContent() {
           <Route path="contacts/:contactId" element={<ContactDetail />} />
           <Route path="pipeline" element={<Pipeline />} />
           <Route path="quotes" element={<Quotes />} />
+          <Route path="sales-orders" element={<SalesOrders />} />
           <Route path="activities" element={<Activities />} />
           <Route path="companies" element={<Companies />} />
           <Route path="companies/:companyId" element={<CompanyDetail />} />

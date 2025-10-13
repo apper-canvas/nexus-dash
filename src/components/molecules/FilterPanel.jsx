@@ -15,7 +15,7 @@ type = "contacts",
   className = "" 
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [filters, setFilters] = useState({
+const [filters, setFilters] = useState({
     status: "",
     company: "",
     dealValueMin: "",
@@ -26,6 +26,8 @@ type = "contacts",
     state: "",
     dateFrom: "",
     dateTo: "",
+    customer: "",
+    orderNumber: "",
     ...initialFilters
   });
   const [savedViews, setSavedViews] = useState([]);
@@ -72,7 +74,7 @@ type = "contacts",
   };
 
   const clearFilters = () => {
-    setFilters({
+setFilters({
 status: "",
       company: "",
       dealValueMin: "",
@@ -82,7 +84,9 @@ status: "",
       city: "",
       state: "",
       dateFrom: "",
-      dateTo: ""
+      dateTo: "",
+      customer: "",
+      orderNumber: ""
     });
     setActiveView(null);
   };
@@ -166,6 +170,17 @@ const options = useMemo(() => {
           { value: "Retail", label: "Retail" },
           { value: "Manufacturing", label: "Manufacturing" },
           { value: "Other", label: "Other" }
+        ]
+      };
+    } else if (type === "sales-orders") {
+      return {
+        statusOptions: [
+          { value: "", label: "All Statuses" },
+          { value: "Draft", label: "Draft" },
+          { value: "Confirmed", label: "Confirmed" },
+          { value: "Shipped", label: "Shipped" },
+          { value: "Delivered", label: "Delivered" },
+          { value: "Cancelled", label: "Cancelled" }
         ]
       };
     } else {
@@ -268,15 +283,15 @@ const options = useMemo(() => {
               {/* Status/Stage Filter */}
 <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-{type === "contacts" ? "Status" : type === "companies" ? "Industry" : "Deal Stage"}
+{type === "contacts" ? "Status" : type === "companies" ? "Industry" : type === "sales-orders" ? "Status" : "Deal Stage"}
                 </label>
                 <Select
-value={type === "contacts" ? filters.status : type === "companies" ? filters.industry : filters.stage}
+value={type === "contacts" ? filters.status : type === "companies" ? filters.industry : type === "sales-orders" ? filters.status : filters.stage}
                   onChange={(e) => handleFilterChange(
-type === "contacts" ? "status" : type === "companies" ? "industry" : "stage",
+type === "contacts" ? "status" : type === "companies" ? "industry" : type === "sales-orders" ? "status" : "stage",
                     e.target.value
                   )}
-options={type === "contacts" ? options.statusOptions : type === "companies" ? options.industryOptions : options.stageOptions}
+options={type === "contacts" ? options.statusOptions : type === "companies" ? options.industryOptions : type === "sales-orders" ? options.statusOptions : options.stageOptions}
                 />
               </div>
 

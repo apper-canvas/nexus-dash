@@ -15,6 +15,7 @@ const navItems = [
     { path: "/companies", label: "Companies", icon: "Building" },
 { path: "/pipeline", label: "Deals-Madhuri", icon: "TrendingUp" },
     { path: "/quotes", label: "Quotes", icon: "FileText" },
+    { path: "/sales-orders", label: "Sales Orders", icon: "ShoppingCart" },
     { path: "/activities", label: "Activities", icon: "Activity" }
   ];
 
