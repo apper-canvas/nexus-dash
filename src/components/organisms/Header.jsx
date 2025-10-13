@@ -9,11 +9,12 @@ import SearchBar from "@/components/molecules/SearchBar";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
+const navItems = [
 { path: "/", label: "Dashboard", icon: "LayoutDashboard" },
     { path: "/contacts", label: "Contacts", icon: "Users" },
     { path: "/companies", label: "Companies", icon: "Building" },
 { path: "/pipeline", label: "Deals-Madhuri", icon: "TrendingUp" },
+    { path: "/quotes", label: "Quotes", icon: "FileText" },
     { path: "/activities", label: "Activities", icon: "Activity" }
   ];
 

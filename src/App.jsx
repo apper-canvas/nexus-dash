@@ -17,6 +17,7 @@ import ContactDetail from "@/components/pages/ContactDetail";
 import Login from "@/components/pages/Login";
 import Signup from "@/components/pages/Signup";
 import Contacts from "@/components/pages/Contacts";
+import Quotes from "@/components/pages/Quotes";
 import Layout from "@/components/organisms/Layout";
 import { clearUser, setUser } from "@/store/userSlice";
 
@@ -137,12 +138,13 @@ function AppContent() {
         <Route path="/callback" element={<Callback />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
-        <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
+<Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
 <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="contacts" element={<Contacts />} />
           <Route path="contacts/:contactId" element={<ContactDetail />} />
           <Route path="pipeline" element={<Pipeline />} />
+          <Route path="quotes" element={<Quotes />} />
           <Route path="activities" element={<Activities />} />
           <Route path="companies" element={<Companies />} />
           <Route path="companies/:companyId" element={<CompanyDetail />} />
