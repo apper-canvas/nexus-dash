@@ -64,10 +64,17 @@ const QuoteForm = ({ quote, companies, contacts, deals, onSubmit, onCancel }) =>
   const handleSubmit = (e) => {
     e.preventDefault();
     
+// Helper function to validate date before conversion
+    const isValidDate = (dateString) => {
+      if (!dateString || dateString.trim() === '') return false;
+      const date = new Date(dateString);
+      return !isNaN(date.getTime());
+    };
+
     const submitData = {
       ...formData,
-      quote_date_c: formData.quote_date_c ? new Date(formData.quote_date_c).toISOString() : null,
-      expires_on_c: formData.expires_on_c ? new Date(formData.expires_on_c).toISOString() : null
+      quote_date_c: isValidDate(formData.quote_date_c) ? new Date(formData.quote_date_c).toISOString() : null,
+      expires_on_c: isValidDate(formData.expires_on_c) ? new Date(formData.expires_on_c).toISOString() : null
     };
 
     onSubmit(submitData);
