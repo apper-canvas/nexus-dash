@@ -13,7 +13,7 @@ import QuoteForm from "@/components/organisms/QuoteForm";
 import quoteService from "@/services/api/quoteService";
 import { companyService } from "@/services/api/companyService";
 import { contactService } from "@/services/api/contactService";
-import dealService from "@/services/api/dealService";
+import { dealService } from "@/services/api/dealService";
 
 const Quotes = () => {
   const [quotes, setQuotes] = useState([]);
