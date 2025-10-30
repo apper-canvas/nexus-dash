@@ -101,6 +101,5 @@ export default function Header({ onMenuToggle }) {
         </div>
       </div>
     </header>
-  );
-}
+);
 }
