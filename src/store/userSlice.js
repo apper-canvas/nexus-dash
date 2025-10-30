@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
@@ -11,10 +11,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-// CRITICAL: Always use deep cloning to avoid reference issues
-      // This prevents potential issues with object mutations
-      state.user = JSON.parse(JSON.stringify(action.payload));
-      state.isAuthenticated = !!action.payload;
+      state.user = action.payload;
+      state.isAuthenticated = true;
     },
     clearUser: (state) => {
       state.user = null;
@@ -26,5 +24,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, setInitialized } = userSlice.actions;
 export default userSlice.reducer;
