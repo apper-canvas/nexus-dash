@@ -4,10 +4,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
-  theme: {
+theme: {
     extend: {
       colors: {
-        primary: "#2563eb",
+        primary: "#7c3aed",
         secondary: "#475569",
         accent: "#10b981",
         surface: "#ffffff",
@@ -15,7 +15,7 @@ export default {
         success: "#10b981",
         warning: "#f59e0b",
         error: "#ef4444",
-        info: "#3b82f6"
+        info: "#8b5cf6"
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"]
